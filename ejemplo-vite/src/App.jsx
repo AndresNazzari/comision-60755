@@ -3,7 +3,11 @@ import './Navbar.jsx'
 import Navbar from './Navbar.jsx'
 
 function App() {
+
   
+  console.log('App')
+
+
 
   return (
     <> 
