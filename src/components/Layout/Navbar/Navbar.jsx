@@ -1,6 +1,6 @@
 import styles from './Navbar.module.css'
-import logo from '../../assets/logo.png'
-import { CartWidget } from '../CartWidget/CartWidget'
+import logo from '../../../assets/logo.png'
+import { CartWidget } from '../../CartWidget/CartWidget'
 
 export const Navbar = () => {
     return (
