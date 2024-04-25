@@ -1,13 +1,11 @@
-import { Home } from './Pages/Home/Home.jsx'
-import { Contact } from './Pages/Contact/Contact.jsx'
+import Home from "./Pages/Home/Home.jsx";
 
 const App = () => {
-
   return (
     <>
-      <Home/>
+      <Home />
     </>
-    )
-}
+  );
+};
 
-export default App
+export default App;

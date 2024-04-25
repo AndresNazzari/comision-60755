@@ -1,17 +1,22 @@
 /* eslint-disable react/prop-types */
-import styles from './Item.module.css'
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
-export const Item = ({id, name, description, price, image}) => {
+export const Item = ({ id, name, description, price, image }) => {
+  const handleonClick = () => {
+    console.log("click");
+  };
+
   return (
-    <div className={styles.item}>
-      <div className={styles.item__image}>
-        <img src={image} alt={name} />
-      </div>
-      <div className={styles.item__info}>
-        <h2 className={styles.item__info__title}>{name}</h2>
-        <p className={styles.item__info__price}>${price}</p>
-            <a href='#'>Ver Detalles</a>
-        </div>
-    </div>
-  )
-}
+    <Card style={{ width: "18rem" }}>
+      <Card.Img variant="top" src={image} />
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
+        <Card.Text>{description}</Card.Text>
+        <Button variant="primary" onClick={handleonClick}>
+          Detalles
+        </Button>
+      </Card.Body>
+    </Card>
+  );
+};

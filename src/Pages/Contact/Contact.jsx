@@ -1,7 +1,5 @@
-import { Layout } from "../../components/Layout/Layout"
+import { Layout } from "../../components/Layout/Layout";
 
 export const Contact = () => {
-  return (
-    <Layout>Componente de contacto</Layout>
-  )
-}
+  return <Layout>Componente de contacto</Layout>;
+};
