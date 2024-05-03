@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 import { Footer } from "./Footer/Footer";
 import { Navigation } from "./Navigation/Navigation";
+import { Outlet } from "react-router-dom";
 
-export const Layout = ({ children }) => {
+export const Layout = () => {
   return (
     <div>
       <Navigation />
-      <div>{children}</div>
+      <div>
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

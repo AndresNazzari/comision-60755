@@ -1,27 +1,30 @@
 /* eslint-disable react/prop-types */
 import styles from "./ItemListContainer.module.css";
 import { useState, useEffect } from "react";
-import { getProducts, setProduct } from "../../utils/MockData";
+import { getProducts, getProductsByCategory } from "../../utils/MockData";
 import { ItemList } from "../ItemList/ItemList";
-import { useFetch } from "../../hooks/useFetch";
 import { Spinner } from "../spinner/Spinner";
-import { usePaginate } from "../../hooks/usePaginate";
+import { useParams } from "react-router-dom";
+// import { useFetch } from "../../hooks/useFetch";
+// import { usePaginate } from "../../hooks/usePaginate";
 
 export const ItemListContainer = ({ bgBlue, greeting }) => {
+  const defaultTitle = "Default title";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const itemsPerPage = 2;
+  const { catId } = useParams();
 
-  const {
-    currentPage,
-    totalPages,
-    nextPage,
-    prevPage,
-    paginate,
-    totalPagesArray,
-    currentData,
-  } = usePaginate(products, itemsPerPage);
+  // const itemsPerPage = 2;
+  // const {
+  //   currentPage,
+  //   totalPages,
+  //   nextPage,
+  //   prevPage,
+  //   paginate,
+  //   totalPagesArray,
+  //   currentData,
+  // } = usePaginate(products, itemsPerPage);
 
   //   const url = "https://fakestoreapi.com/products";
   //   const method = "GET";
@@ -31,19 +34,24 @@ export const ItemListContainer = ({ bgBlue, greeting }) => {
   //   const greeting = props.greeting
 
   useEffect(() => {
-    getProducts()
-      .then((res) => {
+    setLoading(true);
+
+    if (catId) {
+      getProductsByCategory(catId).then((res) => {
         setProducts(res);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
       });
-
-    // setProduct().then((res) => console.log(res));
-  }, []);
-
-  const defaultTitle = "Default title";
+    } else {
+      getProducts()
+        .then((res) => {
+          setProducts(res);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [catId]);
 
   return (
     <main>
@@ -52,8 +60,8 @@ export const ItemListContainer = ({ bgBlue, greeting }) => {
         <Spinner />
       ) : (
         <div>
-          <ItemList productsList={currentData} />
-          <button onClick={prevPage}>prev page</button>
+          <ItemList productsList={products} />
+          {/* <button onClick={prevPage}>prev page</button>
           {totalPagesArray.map((page) => {
             if (page < 6) {
               return (
@@ -74,6 +82,7 @@ export const ItemListContainer = ({ bgBlue, greeting }) => {
             }
           })}
           <button onClick={nextPage}>next page</button>
+          */}
         </div>
       )}
     </main>
