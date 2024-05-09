@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const ItemCount = ({ stock }) => {
+export const ItemCount = ({ stock, initial, handlleAddToCart }) => {
+  const navigate = useNavigate();
   const [cantItems, setCantItems] = useState(0);
+  const [pordAgregado, setProdAgregado] = useState(false);
 
   const handlleAdd = () => {
     setCantItems(cantItems + 1);
@@ -15,8 +18,14 @@ export const ItemCount = ({ stock }) => {
     // cantItems > 0 && setCantItems(cantItems - 1)
   };
 
-  const handlleAddToCart = () => {
-    console.log(`Se agregaron ${cantItems} al carrito`);
+  const handleTerminarCompra = () => {
+    setProdAgregado(false);
+    navigate("/cart");
+  };
+
+  const handleAgregarAlCarrito = () => {
+    setProdAgregado(true);
+    handlleAddToCart(cantItems);
   };
 
   return (
@@ -27,7 +36,12 @@ export const ItemCount = ({ stock }) => {
         <span> {cantItems} </span>
         <button onClick={handlleSubs}> - </button>
       </div>
-      <button onClick={handlleAddToCart}> Agregar al carrito </button>
+
+      {pordAgregado ? (
+        <button onClick={handleTerminarCompra}> Terminar Compra </button>
+      ) : (
+        <button onClick={handleAgregarAlCarrito}>Agregar al carrito</button>
+      )}
     </>
   );
 };

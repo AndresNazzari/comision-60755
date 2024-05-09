@@ -10,6 +10,7 @@ import { Layout } from "./components/Layout/Layout.jsx";
 import { Dashboard } from "./components/Dashboard/Dashboard.jsx";
 import { useEffect } from "react";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute.jsx";
+import CartContextProvider from "./context/CartContext.jsx";
 
 const App = () => {
   useEffect(() => {
@@ -24,23 +25,25 @@ const App = () => {
   });
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ItemListContainer />} />
-          <Route path="/category/:catId" element={<ItemListContainer />} />
-          <Route path="/products/:prodId" element={<ItemDetailContainer />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/dashboard" element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
+    <CartContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<ItemListContainer />} />
+            <Route path="/category/:catId" element={<ItemListContainer />} />
+            <Route path="/products/:prodId" element={<ItemDetailContainer />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/dashboard" element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
 
-          {/* <Route path="/about" element={<UnderConstruccion />} /> */}
-          <Route path="*" element={<Error />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            {/* <Route path="/about" element={<UnderConstruccion />} /> */}
+            <Route path="*" element={<Error />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </CartContextProvider>
   );
 };
 
