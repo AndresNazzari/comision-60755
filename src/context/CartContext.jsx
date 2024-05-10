@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import { useState } from "react";
 import { createContext, useContext } from "react";
 
@@ -16,12 +17,24 @@ const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  // esto del use effect y local storage NO ENTRA EN EL FINAL, ES OPTATIVO
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    if (cart) {
+      setCart(cart);
+      setTotalQty(cart.reduce((acc, elem) => acc + elem.qty, 0));
+      setTotalPrice(cart.reduce((acc, elem) => acc + elem.price * elem.qty, 0));
+    }
+  }, []);
+  // ************************************************************
+
   const addToCart = (item, qty) => {
     setTotalQty(totalQty + qty);
     setTotalPrice(totalPrice + item.price * qty);
+    let newCart = [];
 
     if (isInCart(item.id)) {
-      const newCart = cart.map((elem) => {
+      newCart = cart.map((elem) => {
         if (elem.id === item.id) {
           return { ...elem, qty: elem.qty + qty };
         } else {
@@ -30,8 +43,11 @@ const CartContextProvider = ({ children }) => {
       });
       setCart(newCart);
     } else {
-      setCart([...cart, { ...item, qty }]);
+      newCart = [...cart, { ...item, qty }];
+      setCart(newCart);
     }
+
+    setCartToLocalStorage(newCart);
   };
 
   const isInCart = (id) => {
@@ -44,14 +60,20 @@ const CartContextProvider = ({ children }) => {
     setTotalQty(totalQty - qty);
 
     const newCart = cart.filter((elem) => elem.id !== id);
-    console.log(newCart);
+
     setCart(newCart);
+    setCartToLocalStorage(newCart);
   };
 
   const clearCart = () => {
     setCart([]);
     setTotalQty(0);
     setTotalPrice(0);
+    setCartToLocalStorage([]);
+  };
+
+  const setCartToLocalStorage = (cartToSave) => {
+    localStorage.setItem("cart", JSON.stringify(cartToSave));
   };
 
   const contextValue = {
