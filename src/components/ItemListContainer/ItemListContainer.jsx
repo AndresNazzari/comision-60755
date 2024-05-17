@@ -5,6 +5,8 @@ import { getProducts, getProductsByCategory } from "../../utils/MockData";
 import { ItemList } from "../ItemList/ItemList";
 import { Spinner } from "../spinner/Spinner";
 import { useParams } from "react-router-dom";
+import { db } from "../../firebase/dbConnection";
+import { collection, getDocs, query, where } from "firebase/firestore";
 // import { useFetch } from "../../hooks/useFetch";
 // import { usePaginate } from "../../hooks/usePaginate";
 
@@ -36,20 +38,54 @@ export const ItemListContainer = ({ bgBlue, greeting }) => {
   useEffect(() => {
     setLoading(true);
 
+    const productsCollection = collection(db, "products");
+
     if (catId) {
-      getProductsByCategory(catId).then((res) => {
-        setProducts(res);
-        setLoading(false);
-      });
-    } else {
-      getProducts()
-        .then((res) => {
-          setProducts(res);
+      const cons = query(
+        productsCollection,
+        where("category", "array-contains", catId)
+      );
+
+      getDocs(cons)
+        .then(({ docs }) => {
+          const prodFromDocs = docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          setProducts(prodFromDocs);
           setLoading(false);
         })
         .catch((error) => {
           console.log(error);
         });
+      // getProductsByCategory(catId).then((res) => {
+      //   setProducts(res);
+      //   setLoading(false);
+      // });
+    } else {
+      getDocs(productsCollection)
+        .then(({ docs }) => {
+          const prodFromDocs = docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          setProducts(prodFromDocs);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // getProducts()
+      //   .then((res) => {
+      //     setProducts(res);
+      //     setLoading(false);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     }
   }, [catId]);
 

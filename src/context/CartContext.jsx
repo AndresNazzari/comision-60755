@@ -29,6 +29,7 @@ const CartContextProvider = ({ children }) => {
   // ************************************************************
 
   const addToCart = (item, qty) => {
+    console.log(item);
     setTotalQty(totalQty + qty);
     setTotalPrice(totalPrice + item.price * qty);
     let newCart = [];
