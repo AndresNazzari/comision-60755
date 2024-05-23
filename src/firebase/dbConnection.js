@@ -7,12 +7,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB_BLocGHtA25LQIJz15HngYwUhhj-8CB8",
-  authDomain: "pokestore-60755.firebaseapp.com",
-  projectId: "pokestore-60755",
-  storageBucket: "pokestore-60755.appspot.com",
-  messagingSenderId: "771509019126",
-  appId: "1:771509019126:web:de0117df0d0b68d58427d7",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 // Initialize Firebase
