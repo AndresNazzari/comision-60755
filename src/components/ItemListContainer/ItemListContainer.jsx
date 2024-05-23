@@ -11,7 +11,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 // import { usePaginate } from "../../hooks/usePaginate";
 
 export const ItemListContainer = ({ bgBlue, greeting }) => {
-  const defaultTitle = "Default title";
+  const defaultTitle = "Titulo del proyecto comision 60755";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
